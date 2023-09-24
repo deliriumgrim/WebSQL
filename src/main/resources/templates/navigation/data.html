@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Data</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/main.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/navigation.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/button.css}">
+</head>
+<body>
+    <div class="navigation">
+        <nav>
+            <a class="navButton" href="/">Главная</a>
+            <a class="navButton" href="/operations">Операции</a>
+        </nav>
+    </div>
+
+    <div class="navigation">
+        <h3 class="text">Таблицы: </h3>
+        <nav>
+            <a class="navButton" href="/data/checks">Checks</a>
+            <a class="navButton" href="/data/friends">Friends</a>
+            <a class="navButton" href="/data/p2p">P2p</a>
+            <a class="navButton" href="/data/peers">Peers</a>
+            <a class="navButton" href="/data/recommendations">Recommendations</a>
+            <a class="navButton" href="/data/tasks">Tasks</a>
+            <a class="navButton" href="/data/timeTracking">Time tracking</a>
+            <a class="navButton" href="/data/transferredPoints">Transferred points</a>
+            <a class="navButton" href="/data/verter">Verter</a>
+            <a class="navButton" href="/data/xp">Xp</a>
+        </nav>
+    </div>
+</body>

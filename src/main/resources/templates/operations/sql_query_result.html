@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SQL Operations Result</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/main.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/navigation.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/button.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/query_result.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/table.css}">
+</head>
+<body>
+    <div class="navigation">
+        <nav>
+            <a class="navButton" href="/">Главная</a>
+            <a class="navButton" href="/data">Данные</a>
+            <a class="navButton" href="/operations">Операции</a>
+        </nav>
+    </div>
+
+    <div class="queryResultBlock" th:if="${columns != null && rows != null}">
+        <table class="sqlTable">
+            <thead>
+            <tr>
+                <th th:each="column : ${columns}" th:text="${column}"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="row : ${rows}">
+                <td th:each="cell : ${row}" th:text="${cell}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="queryResultBlock" th:if="${columns == null && rows == null}">
+        <b>Операция успешно выполнена</b>
+    </div>
+
+    <div class="backButtonBlock">
+        <a class="backButton" th:href="@{'/operations/' + ${backPage}}">Вернуться назад</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  db:
+    container_name: info21-web-db
+    build: db
+    volumes:
+      - export_data:/tmp/exportTmp
+      - import_data:/tmp/importTmp
+
+  app:
+    container_name: info21-web-app
+    build: web
+    depends_on:
+      - db
+    volumes:
+      - export_data:/tmp/exportTmp
+      - import_data:/tmp/importTmp
+
+  ngnix:
+    container_name: info21-web-nginx
+    build: nginx
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+
+volumes:
+  export_data:
+  import_data:

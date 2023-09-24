@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Executor</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/main.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/navigation.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/input.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/button.css}">
+</head>
+
+<body>
+    <div class="navigation">
+        <nav>
+            <a class="navButton" href="/">Главная</a>
+            <a class="navButton" href="/data">Данные</a>
+            <a class="navButton" href="/operations">Операции</a>
+        </nav>
+    </div>
+
+    <form th:action="@{/operations/executeQuery}" method="get">
+        <label>
+            <textarea name="sqlQuery" rows="5" cols="50"></textarea>
+        </label>
+        <div class="sqlExecutorButtonBlock">
+            <button type="submit">Выполнить</button>
+        </div>
+    </form>
+</body>
+</html>

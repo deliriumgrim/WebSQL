@@ -1,0 +1,11 @@
+.aboutProject {
+    text-align: justify;
+    color: #cacaca;
+    display: inline-block;
+    margin-left: 25%;
+    width: 50%;
+}
+
+.welcomeMessage {
+    text-align: center;
+}

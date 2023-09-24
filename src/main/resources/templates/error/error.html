@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/main.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/error.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/button.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/navigation.css}">
+</head>
+<body>
+    <div class="navigation">
+        <nav>
+            <a class="navButton" href="/">Главная</a>
+            <a class="navButton" href="/data">Данные</a>
+            <a class="navButton" href="/operations">Операции</a>
+        </nav>
+    </div>
+
+    <div class="errorMessageBlock">
+        <span class="errorMessage" th:text="${error}"></span>
+    </div>
+</body>
+</html>

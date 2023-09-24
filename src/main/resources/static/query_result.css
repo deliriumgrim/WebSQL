@@ -1,0 +1,5 @@
+.queryResultBlock {
+    display: flex; /* Используем flex-контейнер */
+    justify-content: center; /* Горизонтальное центрирование */
+    align-items: center; /* Вертикальное центрирование */
+}

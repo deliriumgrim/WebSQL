@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>P2p</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/main.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/navigation.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/button.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/table.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/input.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/form_block.css}">
+</head>
+
+<body>
+    <div class="navigation">
+        <nav>
+            <a class="navButton" href="/">Главная</a>
+            <a class="navButton" href="/data">Данные</a>
+            <a class="navButton" href="/operations">Операции</a>
+        </nav>
+    </div>
+
+    <div>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Check_id</th>
+                <th>Checking_peer</th>
+                <th>State</th>
+                <th>Time</th>
+            </tr>
+            <tr th:each="p2p : ${p2pList}">
+                <td th:text="${p2p.id}"></td>
+                <td th:text="${p2p.checkId}"></td>
+                <td th:text="${p2p.checkingPeer}"></td>
+                <td th:text="${p2p.checkStatus}"></td>
+                <td th:text="${p2p.time}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="inputBlock">
+        <div class="formBlock">
+            <b>Добавить запись</b>
+            <form th:action="@{/data/addP2p}" method="post" onsubmit="return confirm('Вы уверенны, что хотите совершить это действие?');">
+                <input type="text" name="checkId" placeholder="Check ID">
+                <input type="text" name="checkingPeer" placeholder="Checking peer">
+                <select name="checkStatus">
+                    <option th:each="status : ${T(edu.school21.info21.web.enums.CheckStatus).values()}" th:value="${status}" th:text="${status}"></option>
+                </select>
+                <input type="time" name="time" placeholder="Time">
+                <button type="submit">Add</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Обновить запись</b>
+            <form th:action="@{/data/updateP2p}" method="post" onsubmit="return confirm('Вы уверенны, что хотите совершить это действие?');">
+                <input type="text" name="id" placeholder="ID">
+                <input type="text" name="checkId" placeholder="Check ID">
+                <input type="text" name="checkingPeer" placeholder="Checking peer">
+                <select name="checkStatus">
+                    <option th:each="status : ${T(edu.school21.info21.web.enums.CheckStatus).values()}" th:value="${status}" th:text="${status}"></option>
+                </select>
+                <input type="time" name="time" placeholder="Time">
+                <button type="submit">Update</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Удалить запись</b>
+            <form th:action="@{/data/deleteP2p}" method="post" onsubmit="return confirm('Вы уверенны, что хотите совершить это действие?');">
+                <input type="text" name="id" placeholder="ID">
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Найти запись</b>
+            <form th:action="@{/data/findP2p}" method="get" onsubmit="return confirm('Вы уверенны, что хотите совершить это действие?');">
+                <input type="text" name="id" placeholder="ID">
+                <button type="submit">Find</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Импортировать данные</b>
+            <form th:action="@{/data/importP2p}" enctype="multipart/form-data" method="post">
+                <input type="file" name="multipartFile">
+                <input type="hidden" name="tableName" value="p2p">
+                <button type="submit">Import</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Экспортировать данные</b>
+            <form th:action="@{/data/exportP2p}" method="get">
+                <input type="hidden" name="tableName" value="p2p">
+                <button type="submit">Export</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

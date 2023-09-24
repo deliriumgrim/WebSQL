@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Time tracking</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/main.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/navigation.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/button.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/table.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/input.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/form_block.css}">
+</head>
+
+<body>
+    <div class="navigation">
+        <nav>
+            <a class="navButton" href="/">Главная</a>
+            <a class="navButton" href="/data">Данные</a>
+            <a class="navButton" href="/operations">Операции</a>
+        </nav>
+    </div>
+
+    <div>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>peer</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>State</th>
+            </tr>
+            <tr th:each="tracking : ${timeTrackingList}">
+                <td th:text="${tracking.id}"></td>
+                <td th:text="${tracking.peer}"></td>
+                <td th:text="${tracking.localDate}"></td>
+                <td th:text="${tracking.localTime}"></td>
+                <td th:text="${tracking.state}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="inputBlock">
+        <div class="formBlock">
+            <b>Добавить запись</b>
+            <form th:action="@{/data/addTimeTracking}" method="post" onsubmit="return confirm('Вы уверенны, что хотите совершить это действие?');">
+                <input type="text" name="peer" placeholder="peer">
+                <input type="date" name="localDate" placeholder="Date">
+                <input type="time" name="localTime" placeholder="Time">
+                <input type="text" name="state" placeholder="State">
+                <button type="submit">Add</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Обновить запись</b>
+            <form th:action="@{/data/updateTimeTracking}" method="post" onsubmit="return confirm('Вы уверенны, что хотите совершить это действие?');">
+                <input type="text" name="id" placeholder="ID">
+                <input type="text" name="peer" placeholder="peer">
+                <input type="date" name="localDate" placeholder="Date">
+                <input type="time" name="localTime" placeholder="Time">
+                <input type="text" name="state" placeholder="State">
+                <button type="submit">Update</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Удалить запись</b>
+            <form th:action="@{/data/deleteTimeTracking}" method="post" onsubmit="return confirm('Вы уверенны, что хотите совершить это действие?');">
+                <input type="text" name="id" placeholder="ID">
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Найти запись</b>
+            <form th:action="@{/data/findTimeTracking}" method="get" onsubmit="return confirm('Вы уверенны, что хотите совершить это действие?');">
+                <input type="text" name="id" placeholder="ID">
+                <button type="submit">Find</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Импортировать данные</b>
+            <form th:action="@{/data/importTimeTracking}" enctype="multipart/form-data" method="post">
+                <input type="file" name="multipartFile">
+                <input type="hidden" name="tableName" value="time_tracking">
+                <button type="submit">Import</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Экспортировать данные</b>
+            <form th:action="@{/data/exportTimeTracking}" method="get">
+                <input type="hidden" name="tableName" value="time_tracking">
+                <button type="submit">Export</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

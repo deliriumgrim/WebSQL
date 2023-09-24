@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Operations</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/main.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/navigation.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/button.css}">
+</head>
+<body>
+    <div class="navigation">
+        <nav>
+            <a class="navButton" href="/">Главная</a>
+            <a class="navButton" href="/data">Данные</a>
+        </nav>
+    </div>
+
+    <div class="navigation">
+        <nav>
+            <a class="navButton" href="operations/sqlExecutor">Выполнить свой запрос</a>
+            <a class="navButton" href="operations/allOperations">Выполнить заготовленный запрос</a>
+        </nav>
+    </div>
+</body>
+</html>

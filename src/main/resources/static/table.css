@@ -1,0 +1,9 @@
+table {
+    border-collapse: collapse; /* Объединение границ */
+    color: #ffffff;
+}
+
+td, th {
+    border: 1px solid #ccc;
+    padding: 8px;
+}

@@ -1,0 +1,30 @@
+.backButtonBlock,
+.sqlExecutorButtonBlock {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.backButton,
+.navButton {
+    font-size: 25px;
+    color: #ffffff;
+    text-decoration: none;
+    margin: 5px;
+}
+
+button {
+    border-radius: 2px;
+    border: none;
+    padding: 10px;
+    background: #44EB99;
+}
+
+.backButton:hover,
+.navButton:hover {
+    color: #44EB99;
+}
+
+button:hover {
+    background: #A24FEA;
+    color: #ffffff;
+}

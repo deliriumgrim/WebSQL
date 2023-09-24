@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Операции</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/main.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/navigation.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/button.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/input.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/form_block.css}">
+</head>
+
+<body>
+    <div class="navigation">
+        <nav>
+            <a class="navButton" href="/">Главная</a>
+            <a class="navButton" href="/data">Данные</a>
+            <a class="navButton" href="/operations">Операции</a>
+        </nav>
+    </div>
+
+    <div>
+        <div class="formBlock">
+            <b>1) Процедура добавления P2P проверки.</b><br>
+            <span>Параметры: ник проверяемого, ник проверяющего, название задания, статус P2P проверки, время.</span><br>
+            <span>Если задан статус "начало", запись добавиться в таблицу Checks (в качестве даты будет использована сегодняшняя).</span><br>
+            <span>Добавится запись в таблицу P2P.</span><br>
+            <form th:action="@{/operations/insertP2pCheck}" method="post">
+                <input type="text" name="checkedName" placeholder="Checked peer">
+                <input type="text" name="checkingName" placeholder="Checking peer">
+                <input type="text" name="taskTitle" placeholder="Task title">
+                <label>
+                    <select name="checkStatus">
+                        <option th:each="status : ${T(edu.school21.info21.web.enums.CheckStatus).values()}" th:value="${status}" th:text="${status}"></option>
+                    </select>
+                </label>
+                <input type="time" name="time">
+                <button type="submit">Execute</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b class="textB">2) Процедура добавления проверки Verter'ом</b><br>
+            <span class="textSpan">Параметры: ник проверяемого, название задания, статус проверки Verter'ом, время.</span><br>
+            <span class="textSpan">Добавится запись в таблицу Verter (в качестве проверки будет указана проверка соответствующего задания с самым поздним (по времени) успешным P2P этапом)</span><br>
+            <form th:action="@{/operations/insertVerter}" method="post">
+                <input type="text" name="checkedName" placeholder="Checked peer">
+                <input type="text" name="taskTitle" placeholder="Task title">
+                <select name="checkStatus">
+                    <option th:each="status : ${T(edu.school21.info21.web.enums.CheckStatus).values()}"
+                            th:unless="${status == T(edu.school21.info21.web.enums.CheckStatus).Start}"
+                            th:value="${status}" th:text="${status}"></option>
+                </select>
+                <input type="time" name="time">
+                <button type="submit">Execute</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b class="textB">3) Таблица TransferredPoints в более человекочитаемом виде</b><br>
+            <span class="textSpan">Количество отрицательное, если пир 2 получил от пира 1 больше поинтов.</span><br>
+            <form th:action="@{/operations/transferredPointsReadableView}" method="get">
+                <input type="hidden" name="action" value="execute">
+                <button type="submit">Execute</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b class="textB">4) Задания успешно прошедшие проверку</b><br>
+            <span class="textSpan">Одна задача может быть успешно выполнена несколько раз.</span>
+            <form th:action="@{/operations/successTasks}" method="get">
+                <input type="hidden" name="action" value="execute">
+                <button type="submit">Execute</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b class="textB">5) Пиры, которые не выходили из кампуса в течение всего дня.</b><br>
+            <span class="textSpan">Параметры функции: день, например 12.05.2022.</span>
+            <form th:action="@{/operations/notGoOutPeers}" method="get">
+                <input type="date" name="date" placeholder="Date">
+                <input type="hidden" name="action" value="execute">
+                <button type="submit">Execute</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b class="textB">6) Расчет изменений в количестве пир поинтов каждого пира по таблице TransferredPoints</b><br>
+            <span class="textSpan">Формат вывода: ник пира, изменение в количество пир поинтов.</span><br>
+            <form th:action="@{/operations/changePeerPoints}" method="get">
+                <input type="hidden" name="action" value="execute">
+                <button type="submit">Execute</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b class="textB">7) Расчет изменений в количестве пир поинтов каждого пира по таблице, возвращаемой первой функцией из Part 3 проекта SQL Info v1.0</b><br>
+            <span class="textSpan">Формат вывода: ник пира, изменение в количество пир поинтов.</span><br>
+            <form th:action="@{/operations/changePeerPointsOnAnotherFunc}" method="get">
+                <input type="hidden" name="action" value="execute">
+                <button type="submit">Execute</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b class="textB">8) Определение самого часто проверяемого задание за каждый день</b><br>
+            <span class="textSpan">Формат вывода: день, название задания.</span><br>
+            <form th:action="@{/operations/mostChecksOnDay}" method="get">
+                <input type="hidden" name="action" value="execute">
+                <button type="submit">Execute</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b class="textB">9) Нахождение всех пиров, выполнивших весь заданный блок задач и дату завершения последнего задания</b><br>
+            <span class="textSpan">Параметры процедуры: название блока, например "CPP".</span><br>
+            <span class="textSpan">Формат вывода: ник пира, дата завершения блока (т.е. последнего выполненного задания из этого блока).</span><br>
+            <form th:action="@{/operations/blockSuccess}" method="get">
+                <input type="text" name="blockName" placeholder="Block name">
+                <button type="submit">Execute</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b class="textB">10) Определение, к какому пиру стоит идти на проверку каждому обучающемуся</b><br>
+            <span class="textSpan">Определение происходит из рекомендаций друзей пира, т.е. находится тот пир, проверяться у которого рекомендует наибольшее число друзей.</span><br>
+            <span class="textSpan">Формат вывода: ник пира, ник найденного проверяющего.</span><br>
+            <form th:action="@{/operations/findBestPeer}" method="get">
+                <input type="hidden" name="action" value="execute">
+                <button type="submit">Execute</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b class="textB">11) Определение процента пиров, которые:</b><br>
+            <span class="textSpan">Приступили только к блоку 1.</span><br>
+            <span class="textSpan"> Приступили только к блоку 2.</span><br>
+            <span class="textSpan">Приступили к обоим.</span><br>
+            <span class="textSpan">Не приступили ни к одному.</span><br>
+            <span class="textSpan">Параметры процедуры: название блока 1, например "C", название блока 2, например "DO".</span><br>
+            <span class="textSpan">Формат вывода: процент приступивших только к первому блоку, процент приступивших только ко второму блоку, процент приступивших к обоим, процент не приступивших ни к одному.</span><br>
+            <form th:action="@{/operations/statOfPeers}" method="get">
+                <input type="text" name="firstBlock" placeholder="First block name">
+                <input type="text" name="secondBlock" placeholder="Second block name">
+                <button type="submit">Execute</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b class="textB">12) Определение процента пиров, которые когда-либо успешно проходили проверку в свой день рождения</b><br>
+            <span class="textSpan">Также определение процента пиров, которые хоть раз проваливали проверку в свой день рождения.</span><br>
+            <span class="textSpan">Формат вывода: процент пиров, успешно прошедших проверку в день рождения, процент пиров, проваливших проверку в день рождения.</span><br>
+            <form th:action="@{/operations/checksBirthday}" method="get">
+                <input type="hidden" name="action" value="execute">
+                <button type="submit">Execute</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b class="textB">13) Определение всех пиров, которые сдали заданные задания 1 и 2, но не сдали задание 3</b><br>
+            <span class="textSpan">Параметры процедуры: названия заданий 1, 2 и 3.</span><br>
+            <span class="textSpan">Формат вывода: список пиров.</span><br>
+            <form th:action="@{/operations/findPeersOnTasks}" method="get">
+                <input type="text" name="firstName" placeholder="First task name">
+                <input type="text" name="secondName" placeholder="Second task name">
+                <input type="text" name="thirdName" placeholder="Third task name">
+                <button type="submit">Execute</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b class="textB">14) Используя рекурсивное обобщенное табличное выражение, для каждой задачи выводится кол-во предшествующих ей задач</b><br>
+            <span class="textSpan">То есть сколько задач нужно выполнить, исходя из условий входа, чтобы получить доступ к текущей.</span><br>
+            <span class="textSpan">Формат вывода: название задачи, количество предшествующих.</span><br>
+            <form th:action="@{/operations/recurFindTaskParents}" method="get">
+                <input type="hidden" name="action" value="execute">
+                <button type="submit">Execute</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b class="textB">15) Нахождение "удачных" для проверок дней. День считается "удачным", если в нем есть хотя бы N идущих подряд успешных проверки</b><br>
+            <span class="textSpan">При этом кол-во опыта за каждую из этих проверок должно быть не меньше 80% от максимального.</span><br>
+            <span class="textSpan">Параметры процедуры: количество идущих подряд успешных проверок N.</span><br>
+            <span class="textSpan">Формат вывода: список дней.</span><br>
+            <form th:action="@{/operations/findBestDays}" method="get">
+                <input type="text" name="countOfDays" placeholder="Count of days">
+                <button type="submit">Execute</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b class="textB">16) Определение пира с наибольшим количеством XP</b><br>
+            <span class="textSpan">Формат вывода: ник пира, количество XP.</span><br>
+            <form th:action="@{/operations/findBestPeerOnXp}" method="get">
+                <input type="hidden" name="action" value="execute">
+                <button type="submit">Execute</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b class="textB">17) Определение пиров, приходивших раньше заданного времени не менее N раз за всё время</b><br>
+            <span class="textSpan">Параметры процедуры: время, количество раз N.</span><br>
+            <span class="textSpan">Формат вывода: список пиров.</span><br>
+            <form th:action="@{/operations/peerTimeTrack}" method="get">
+                <input type="time" name="time" placeholder="Time">
+                <input type="text" name="numOfVisits" placeholder="Count of days">
+                <button type="submit">Execute</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b class="textB">18) Определение пиров, выходивших за последние N дней из кампуса больше M раз</b><br>
+            <span class="textSpan">Параметры процедуры: количество дней N, количество раз M.</span><br>
+            <span class="textSpan">Формат вывода: список пиров.</span><br>
+            <form th:action="@{/operations/findPeersExitNDaysMTimes}" method="get">
+                <input type="text" name="nDays" placeholder="Number of days">
+                <input type="text" name="nTimes" placeholder="Number of times">
+                <button type="submit">Execute</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b class="textB">19) Определение для каждого месяца процента ранних входов</b><br>
+            <span class="textSpan">Для каждого месяца расчитано, сколько раз люди, родившиеся в этот месяц, приходили в кампус за всё время (будем называть это общим числом входов).</span><br>
+            <span class="textSpan">Для каждого месяца расчитано, сколько раз люди, родившиеся в этот месяц, приходили в кампус раньше 12:00 за всё время (будем называть это числом ранних входов).</span><br>
+            <span class="textSpan">Для каждого месяца расчитан процент ранних входов в кампус относительно общего числа входов.</span><br>
+            <span class="textSpan">Формат вывода: месяц, процент ранних входов.</span><br>
+            <form th:action="@{/operations/findEarlyEntries}" method="get">
+                <input type="hidden" name="action" value="execute">
+                <button type="submit">Execute</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

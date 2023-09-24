@@ -1,0 +1,9 @@
+.errorMessageBlock {
+    text-align: center;
+}
+
+.errorMessage {
+    font-size: 25px;
+    color: #ffffff;
+    text-decoration: none;
+}

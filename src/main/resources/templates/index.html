@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Info21-web</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/main.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/navigation.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/button.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/index.css}">
+</head>
+
+<body>
+    <div class="navigation">
+        <nav>
+            <a class="navButton" href="/data">Данные</a>
+            <a class="navButton" href="/operations">Операции</a>
+        </nav>
+    </div>
+    <div class="aboutProject">
+        <div class="welcomeMessage">
+            <b>Добро пожаловать на проект Info21 v2.0 Web!</b>
+        </div>
+        <br>
+        <span>
+            <b>Данный проект</b> - это web-приложение с использование MVC-фреймворка.
+            Здесь реализован web-интерфейс для проекта SQL2.
+            Приложение поддерживает осуществление CRUD-операций, импорт/экспорт таблиц,
+            осуществление разработанных на прошлом шаге операций/функций через графический интерфейс,
+            а также логирование действий пользователя.
+        </span><br>
+        <span><b>Об авторах</b>: проект выполнили tyuuki и dumfred. Ученики школы 21.</span><br>
+        <span><b>Раздел "Данные"</b> содержит CRUD-операции по всем таблиц, а также импорт/экспорт в CSV формат.</span><br>
+        <span><b>Раздел "Операции"</b> содержит все возможные для вызова запросы из проекта SQL2.</span>
+    </div>
+</body>
+</html>

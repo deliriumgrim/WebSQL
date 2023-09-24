@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tasks</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/main.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/navigation.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/button.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/table.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/input.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/form_block.css}">
+</head>
+
+<body>
+    <div class="navigation">
+        <nav>
+            <a class="navButton" href="/">Главная</a>
+            <a class="navButton" href="/data">Данные</a>
+            <a class="navButton" href="/operations">Операции</a>
+        </nav>
+    </div>
+
+    <div>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Parent task</th>
+                <th>Max xp</th>
+            </tr>
+            <tr th:each="task : ${taskList}">
+                <td th:text="${task.title}"></td>
+                <td th:text="${task.parentTask}"></td>
+                <td th:text="${task.maxXp}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="inputBlock">
+        <div class="formBlock">
+            <b>Добавить запись</b>
+            <form th:action="@{/data/addTask}" method="post" onsubmit="return confirm('Вы уверенны, что хотите совершить это действие?');">
+                <input type="text" name="title" placeholder="Title">
+                <input type="text" name="parentTask" placeholder="Parent task">
+                <input type="text" name="maxXp" placeholder="Max xp">
+                <button type="submit">Add</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Обновить запись</b>
+            <form th:action="@{/data/updateTask}" method="post" onsubmit="return confirm('Вы уверенны, что хотите совершить это действие?');">
+                <input type="text" name="title" placeholder="Title">
+                <input type="text" name="parentTask" placeholder="Parent task">
+                <input type="text" name="maxXp" placeholder="Max xp">
+                <button type="submit">Update</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Удалить запись</b>
+            <form th:action="@{/data/deleteTask}" method="post" onsubmit="return confirm('Вы уверенны, что хотите совершить это действие?');">
+                <input type="text" name="id" placeholder="Title">
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Найти запись</b>
+            <form th:action="@{/data/findTask}" method="get" onsubmit="return confirm('Вы уверенны, что хотите совершить это действие?');">
+                <input type="text" name="id" placeholder="Title">
+                <button type="submit">Find</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Импортировать данные</b>
+            <form th:action="@{/data/importTasks}" enctype="multipart/form-data" method="post">
+                <input type="file" name="multipartFile">
+                <input type="hidden" name="tableName" value="tasks">
+                <button type="submit">Import</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Экспортировать данные</b>
+            <form th:action="@{/data/exportTasks}" method="get">
+                <input type="hidden" name="tableName" value="tasks">
+                <button type="submit">Export</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

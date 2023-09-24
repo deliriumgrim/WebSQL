@@ -1,0 +1,65 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.5.5'
+	id 'io.spring.dependency-management' version '1.1.2'
+}
+
+group = 'com.info21'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '1.8'
+	targetCompatibility = '1.8'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-logging'
+	implementation 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	runtimeOnly 'org.postgresql:postgresql'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+jar {
+	def jars = configurations.runtimeClasspath.files.collect{"lib/$it.name"}
+
+	manifest {
+		attributes 'Main-Class': 'edu.school21.info21.web.Application',
+					'Class-Path': jars.join(' ')
+	}
+}
+
+task copyAllDependencies(type: Copy) {
+	from(configurations.runtimeClasspath.files)
+	into("$buildDir/libs/lib")
+}
+
+jar.dependsOn copyAllDependencies
+
+
+def destinationDir = file('docker/web/webapp')
+
+task copyBuild(type: Copy) {
+	from ("$buildDir/libs/")
+	into (destinationDir)
+}
+
+jar.finalizedBy copyBuild
+
+task additionalClean(type: Delete) {
+	delete fileTree(dir: 'docker/web/webapp').include('*')
+	delete ('docker/web/webapp/lib')
+}
+
+clean.dependsOn additionalClean
+
+//tasks.named('test') {
+//	useJUnitPlatform()
+//}

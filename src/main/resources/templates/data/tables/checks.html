@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Checks</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/main.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/navigation.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/button.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/table.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/input.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/form_block.css}">
+</head>
+
+<div class="navigation">
+    <nav>
+        <a class="navButton" href="/">Главная</a>
+        <a class="navButton" href="/data">Данные</a>
+        <a class="navButton" href="/operations">Операции</a>
+    </nav>
+</div>
+
+<body>
+    <div>
+        <table>
+            <tr>
+                <th>Id</th>
+                <th>Peer</th>
+                <th>Task</th>
+                <th>Date</th>
+            </tr>
+            <tr th:each="check : ${checkList}">
+                <td th:text="${check.id}"></td>
+                <td th:text="${check.peer}"></td>
+                <td th:text="${check.task}"></td>
+                <td th:text="${check.date}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="inputBlock">
+        <div class="formBlock">
+            <b>Добавить запись</b>
+            <form th:action="@{/data/addCheck}" method="post" onsubmit="return confirm('Вы уверенны, что хотите совершить это действие?');">
+                <input type="text" name="peer" placeholder="Peer">
+                <input type="text" name="task" placeholder="Task">
+                <input type="date" name="date">
+                <button type="submit">Add</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Обновить запись</b>
+            <form th:action="@{/data/updateCheck}" method="post" onsubmit="return confirm('Вы уверенны, что хотите совершить это действие?');">
+                <input type="text" name="id" placeholder="ID">
+                <input type="text" name="peer" placeholder="Peer">
+                <input type="text" name="task" placeholder="Task">
+                <input type="date" name="date">
+                <button type="submit">Update</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Удалить запись</b>
+            <form th:action="@{/data/deleteCheck}" method="post" onsubmit="return confirm('Вы уверенны, что хотите совершить это действие?');">
+                <input type="text" name="id" placeholder="ID">
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Найти запись</b>
+            <form th:action="@{/data/findCheck}" method="get" onsubmit="return confirm('Вы уверенны, что хотите совершить это действие?');">
+                <input type="text" name="id" placeholder="ID">
+                <button type="submit">Find</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Импортировать данные</b>
+            <form th:action="@{/data/importChecks}" enctype="multipart/form-data" method="post">
+                <input type="file" name="multipartFile">
+                <input type="hidden" name="tableName" value="checks">
+                <button type="submit">Import</button>
+            </form>
+        </div>
+
+        <div class="formBlock">
+            <b>Экспортировать данные</b>
+            <form th:action="@{/data/exportChecks}" method="get">
+                <input type="hidden" name="tableName" value="checks">
+                <button type="submit">Export</button>
+            </form>
+        </div>
+    </div>
+</body>
